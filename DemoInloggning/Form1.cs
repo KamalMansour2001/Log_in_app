@@ -75,12 +75,11 @@ namespace DemoInloggning
         {
             foreach (Elev elev in elevlistainlog)
             {
-                if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000)
+                if (String.IsNullOrEmpty(txtlössenord.Text))
                 {
-                    visalistorna();
-                    txtlössenord.Clear();
+                    return;
                 }
-                else
+                else if (elev.Lössenord == int.Parse(txtlössenord.Text))
                 {
                     if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.Finns == false)
                     {
@@ -89,7 +88,8 @@ namespace DemoInloggning
                         DateTime date = DateTime.Now;
                         elev.inlogning = date;
                         elev.Finns = true;
-
+                        DateTime NollarDatum = new DateTime(datenu.Year, datenu.Month, datenu.Day);
+                        elev.Utlogning = NollarDatum;
 
                         return;
                     }
@@ -97,6 +97,11 @@ namespace DemoInloggning
                     {
                         MessageBox.Show("Du är redan inloggad!");
                     }
+                }
+                else if(elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000)
+                {
+                    visalistorna();
+                    txtlössenord.Clear();
                 }
             }
 
@@ -107,7 +112,11 @@ namespace DemoInloggning
             //Här ska det sparas när eleven loggade ut.
             foreach (Elev elev in elevlistainlog)
             {
-                if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000) // Gör att enbart Admin kan stänga programmet.
+                if (String.IsNullOrEmpty(txtlössenord.Text))
+                {
+                    return;
+                }
+                else if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000) // Gör att enbart Admin kan stänga programmet.
                 {
                     Inlggoning.ActiveForm.Close();
                     DateTime NollarDatum = new DateTime(datenu.Year, datenu.Month, datenu.Day);
@@ -118,7 +127,7 @@ namespace DemoInloggning
                         if (temp == "Open" && eleven.Utlogning == NollarDatum) //Kollar ifall finns uppkoppling med databasen.
                         {                                                    //Kollar också ifall eleven inte har loggat ut för dagen då skrivs dem i
                                                                              //databasen men dessa som har loggat in skrivs redan när dem loggar ut
-                                                                             //då kan användare logga ut och sedan in flera gånger om dagen. Allt är reggad.
+                                                                              //då kan användare logga ut och sedan in flera gånger om dagen. Allt är reggad.
                             try
                             {
                                 string insertQury = "INSERT INTO kunskapscompaniet_elever VALUES(@ID, @namn, @password, @inloggning, @utloggning)";
@@ -170,7 +179,7 @@ namespace DemoInloggning
                 }
                 else if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.Finns == true)
                 {
-                    int elevid = elev.ID;
+
                     frmAdminPass frm = new frmAdminPass();
 
                     frm.listBox1.Items.Clear();
@@ -182,7 +191,9 @@ namespace DemoInloggning
                     DateTime datumutlog = DateTime.Now;
                     elev.Utlogning = datumutlog;
                     elev.Finns = false;
+                    
                     conn.Open();
+
                     string insertQury = "INSERT INTO kunskapscompaniet_elever VALUES(@ID, @namn, @password, @inloggning, @utloggning)";
                     cmd = new MySqlCommand(insertQury, conn);
                     cmd.Parameters.AddWithValue("@ID", elev.ID);

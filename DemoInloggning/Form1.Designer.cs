@@ -33,8 +33,6 @@
             this.btnlogin = new System.Windows.Forms.Button();
             this.btnloggaut = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.lstbutloggad = new System.Windows.Forms.ListBox();
-            this.lstbinloggade = new System.Windows.Forms.ListBox();
             this.savfDatan = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -79,28 +77,6 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Lössenord:";
             // 
-            // lstbutloggad
-            // 
-            this.lstbutloggad.BackColor = System.Drawing.Color.LightGray;
-            this.lstbutloggad.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lstbutloggad.FormattingEnabled = true;
-            this.lstbutloggad.ItemHeight = 15;
-            this.lstbutloggad.Location = new System.Drawing.Point(0, 0);
-            this.lstbutloggad.Name = "lstbutloggad";
-            this.lstbutloggad.Size = new System.Drawing.Size(213, 918);
-            this.lstbutloggad.TabIndex = 10;
-            // 
-            // lstbinloggade
-            // 
-            this.lstbinloggade.BackColor = System.Drawing.Color.LightGray;
-            this.lstbinloggade.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lstbinloggade.FormattingEnabled = true;
-            this.lstbinloggade.ItemHeight = 15;
-            this.lstbinloggade.Location = new System.Drawing.Point(1322, 0);
-            this.lstbinloggade.Name = "lstbinloggade";
-            this.lstbinloggade.Size = new System.Drawing.Size(220, 918);
-            this.lstbinloggade.TabIndex = 12;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -120,8 +96,6 @@
             this.ClientSize = new System.Drawing.Size(1542, 918);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.lstbinloggade);
-            this.Controls.Add(this.lstbutloggad);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnloggaut);
             this.Controls.Add(this.btnlogin);
@@ -142,8 +116,6 @@
         private Button btnlogin;
         private Button btnloggaut;
         private Label label2;
-        private ListBox lstbutloggad;
-        private ListBox lstbinloggade;
         private SaveFileDialog savfDatan;
         private PictureBox pictureBox1;
     }
