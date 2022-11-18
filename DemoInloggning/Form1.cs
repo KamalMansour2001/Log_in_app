@@ -79,6 +79,11 @@ namespace DemoInloggning
                 {
                     return;
                 }
+                else if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000)
+                {
+                    visalistorna();
+                    txtlössenord.Clear();
+                }
                 else if (elev.Lössenord == int.Parse(txtlössenord.Text))
                 {
                     if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.Finns == false)
@@ -98,11 +103,7 @@ namespace DemoInloggning
                         MessageBox.Show("Du är redan inloggad!");
                     }
                 }
-                else if(elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000)
-                {
-                    visalistorna();
-                    txtlössenord.Clear();
-                }
+
             }
 
         }
