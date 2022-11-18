@@ -117,67 +117,6 @@ namespace DemoInloggning
                 {
                     return;
                 }
-                else if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.ID == 10000) // Gör att enbart Admin kan stänga programmet.
-                {
-                    Inlggoning.ActiveForm.Close();
-                    DateTime NollarDatum = new DateTime(datenu.Year, datenu.Month, datenu.Day);
-                    // Här skickas all data som finns i listan till databasen.
-                    foreach (Elev eleven in elevlistainlog) //loopar igenom listan.
-                    {
-                        var temp = conn.State.ToString();
-                        if (temp == "Open" && eleven.Utlogning == NollarDatum) //Kollar ifall finns uppkoppling med databasen.
-                        {                                                    //Kollar också ifall eleven inte har loggat ut för dagen då skrivs dem i
-                                                                             //databasen men dessa som har loggat in skrivs redan när dem loggar ut
-                                                                              //då kan användare logga ut och sedan in flera gånger om dagen. Allt är reggad.
-                            try
-                            {
-                                string insertQury = "INSERT INTO kunskapscompaniet_elever VALUES(@ID, @namn, @password, @inloggning, @utloggning)";
-                                cmd = new MySqlCommand(insertQury, conn);
-                                cmd.Parameters.AddWithValue("@ID", eleven.ID);
-                                cmd.Parameters.AddWithValue("@namn", eleven.Namn);
-                                cmd.Parameters.AddWithValue("@password", eleven.Lössenord);
-                                cmd.Parameters.AddWithValue("@inloggning", eleven.inlogning);
-                                cmd.Parameters.AddWithValue("@utloggning", eleven.Utlogning);
-                                // insertar datan till databasen.
-
-                                int a = cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception ex) // Om något fel uppstår visas det i en messageBox. (lättare fel hantering).
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                            finally
-                            {
-                                conn.Close();
-                            }
-                        }
-                        else if (eleven.Utlogning == NollarDatum)
-                        {
-                            try
-                            {
-                                conn.Open();
-                                string insertQury = "INSERT INTO kunskapscompaniet_elever VALUES(@ID, @namn, @password, @inloggning, @utloggning)";
-                                cmd = new MySqlCommand(insertQury, conn);
-                                cmd.Parameters.AddWithValue("@ID", eleven.ID);
-                                cmd.Parameters.AddWithValue("@namn", eleven.Namn);
-                                cmd.Parameters.AddWithValue("@password", eleven.Lössenord);
-                                cmd.Parameters.AddWithValue("@inloggning", eleven.inlogning);
-                                cmd.Parameters.AddWithValue("@utloggning", eleven.Utlogning);
-
-
-                                int a = cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                            finally
-                            {
-                                conn.Close();
-                            }
-                        }
-                    }
-                }
                 else if (elev.Lössenord == int.Parse(txtlössenord.Text) && elev.Finns == true)
                 {
 
@@ -203,6 +142,8 @@ namespace DemoInloggning
                     cmd.Parameters.AddWithValue("@inloggning", elev.inlogning);
                     cmd.Parameters.AddWithValue("@utloggning", elev.Utlogning);
                     int a = cmd.ExecuteNonQuery();
+
+
                     conn.Close();
                     return;
                 }
@@ -214,6 +155,66 @@ namespace DemoInloggning
             }
                 conn.Close();
         }
-  
+
+        private void Inlggoning_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            DateTime NollarDatum = new DateTime(datenu.Year, datenu.Month, datenu.Day);
+            // Här skickas all data som finns i listan till databasen.
+            foreach (Elev eleven in elevlistainlog) //loopar igenom listan.
+            {
+                var temp = conn.State.ToString();
+                if (temp == "Open" && eleven.Utlogning == NollarDatum) //Kollar ifall finns uppkoppling med databasen.
+                {                                                    //Kollar också ifall eleven inte har loggat ut för dagen då skrivs dem i
+                                                                     //databasen men dessa som har loggat in skrivs redan när dem loggar ut
+                                                                     //då kan användare logga ut och sedan in flera gånger om dagen. Allt är reggad.
+                    try
+                    {
+                        string insertQury = "INSERT INTO kunskapscompaniet_elever VALUES(@ID, @namn, @password, @inloggning, @utloggning)";
+                        cmd = new MySqlCommand(insertQury, conn);
+                        cmd.Parameters.AddWithValue("@ID", eleven.ID);
+                        cmd.Parameters.AddWithValue("@namn", eleven.Namn);
+                        cmd.Parameters.AddWithValue("@password", eleven.Lössenord);
+                        cmd.Parameters.AddWithValue("@inloggning", eleven.inlogning);
+                        cmd.Parameters.AddWithValue("@utloggning", eleven.Utlogning);
+                        // insertar datan till databasen.
+
+                        int a = cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex) // Om något fel uppstår visas det i en messageBox. (lättare fel hantering).
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                else if (eleven.Utlogning == NollarDatum)
+                {
+                    try
+                    {
+                        conn.Open();
+                        string insertQury = "INSERT INTO kunskapscompaniet_elever VALUES(@ID, @namn, @password, @inloggning, @utloggning)";
+                        cmd = new MySqlCommand(insertQury, conn);
+                        cmd.Parameters.AddWithValue("@ID", eleven.ID);
+                        cmd.Parameters.AddWithValue("@namn", eleven.Namn);
+                        cmd.Parameters.AddWithValue("@password", eleven.Lössenord);
+                        cmd.Parameters.AddWithValue("@inloggning", eleven.inlogning);
+                        cmd.Parameters.AddWithValue("@utloggning", eleven.Utlogning);
+
+
+                        int a = cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
     }
 }
